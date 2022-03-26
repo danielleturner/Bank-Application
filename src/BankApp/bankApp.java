@@ -94,7 +94,7 @@ public class bankApp extends Account {
             System.out.print("How much would you like to deposit? ");
             double option = input.nextDouble();
 
-            System.out.printf("You deposited %s \n", option);
+            System.out.printf("You deposited %.2f \n", option);
 
             System.out.println("Would you like to make another deposit? [y/N");
             String answer = input.next();
@@ -103,18 +103,50 @@ public class bankApp extends Account {
             if(answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("Yes")){
                 System.out.println("How much would you like to deposit? ");
                 double response2 = input.nextDouble();
-                System.out.printf("You deposited %s\n Your total balance is: %s\n", response2, (option + response2));
+                System.out.printf("You deposited %.2f \n Your total balance is: %.2f\n", response2, (option + response2));
             }else if(answer.equalsIgnoreCase("N") || answer.equalsIgnoreCase("no")){
                 System.out.printf("Your balance is %.2f", option);
-                try {
-                    FileWriter writer = new FileWriter("checkingAccount", true);
-                    writer.write((int) option );
-                    writer.write("\r\n");   // write new line
-                    writer.write((int) ( + accountBalance));
-                    writer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+                String str;
+                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                System.out.println(" Enter text ('stop' to quit).");
+
+                try(DataOutputStream dataOut = new DataOutputStream(new FileOutputStream("src/data/checkingAccount.txt"))){
+                    System.out.println("writing: " + answer);
+                    dataOut.writeDouble(Integer.parseInt(answer + checkBalance()));
+                }catch (IOException exc){
+                    System.out.println("Writing error.");
+                    return;
                 }
+                System.out.println();
+
+
+
+//                try (FileWriter fw = new FileWriter("checkingAccount", true))
+//                {
+//                    do{
+//                        System.out.print(": ");
+//                        str = br.readLine();
+//
+//                        if(str.compareTo("stop") == 0) break;
+//
+//                        str = str + "\r\n"; // add New Line
+//                        fw.write(str);
+//                    }while(str.compareTo("stop") != 0);
+//                }catch(IOException exc){
+//                    System.out.println("I/O Error: " + exc);
+//                }
+
+
+//                try {
+//
+//                    writer.write((int) option );
+//                    writer.write("\r\n");   // write new line
+//                    writer.write((int) ( + accountBalance));
+//                    writer.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
             }else{
                 System.out.println();
 
