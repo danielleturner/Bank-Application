@@ -10,6 +10,7 @@ public class OptionMenu extends Account {
     Scanner menuInput = new Scanner(System.in);
     DecimalFormat moneyFormat = new DecimalFormat("'$'###,##0.00");
 
+    // this is to add customer number and pin
     HashMap<Integer, Integer> data = new HashMap<Integer, Integer>();
 
     public OptionMenu(int customerNumber) {
@@ -39,10 +40,6 @@ public class OptionMenu extends Account {
                 System.out.println("\n" + "Invalid Character(s). Only numbers are accepted." + "\n");
                 x = 2;
             }
-            /*
-            * for(Map.Entry<Integer, Integer> it : data.entrySet()) {
-            * if(it.getkey() == getCustomerNumber() && it.getValue() == getPinNumber}{
-            * getAccountType();}}*/
 
             int cn = getCustomerNumber();
             int pn = getPinNumber();
