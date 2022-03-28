@@ -16,10 +16,14 @@ public class OptionMenu extends Account {
         super(customerNumber);
     }
 
+    public OptionMenu() {
+        super();
+    }
+
     public void getLogin() throws IOException{
         int x = 1;
         do{
-            try{
+            try{         // customer number, pin number
                 data.put(952141, 191904);
                 data.put(989947, 71976);
 
@@ -86,7 +90,7 @@ public class OptionMenu extends Account {
 
         switch (selection){
             case 1:
-                System.out.println("Checking Account Balance: " + moneyFormat.format(getChecking());
+                System.out.println("Checking Account Balance: " + moneyFormat.format(getCheckingBalance()));
                 getAccountType();
                 break;
             case 2:
@@ -94,7 +98,7 @@ public class OptionMenu extends Account {
                 getAccountType();
                 break;
             case 3:
-                getCheckingdepositInput();
+                getCheckingDepositInput();
                 getAccountType();
                 break;
             case 4:
@@ -119,14 +123,14 @@ public class OptionMenu extends Account {
 
         switch (selection){
             case 1:
-                System.out.println("Saving Account Balance: " + moneyFormat.format(getSaving()));
+                System.out.println("Saving Account Balance: " + moneyFormat.format(getSavingBalance()));
                 break;
             case 2:
-                getsavingwithdrawInput();
+                getsavingWithdrawInput();
                 getAccountType();
                 break;
             case 3:
-                getSavingdepostInput();
+                getSavingDepositInput();
                 getAccountType();
                 break;
             default:
