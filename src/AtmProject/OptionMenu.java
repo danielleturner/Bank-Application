@@ -29,6 +29,8 @@ public class OptionMenu extends Account {
 
                 System.out.println("Welcome to the your bank");
                 System.out.println("Enter you customer Number");
+
+
                 setCustomerNumber(menuInput.nextInt());
 
                 System.out.println("Please enter your pin: ");
@@ -55,10 +57,14 @@ public class OptionMenu extends Account {
     }
 
     public void getAccountType(){
-        System.out.println("Select the Account you wish to access: ");
-        System.out.println(" Type 1 - Checking Account");
-        System.out.println(" Type 2 - Savings Account");
-        System.out.println(" type 3 - Exit");
+
+        System.out.println("Thank you for logging in what would you like to do?\n" +
+                "\n" +
+                "1 - View Checking Account\n" +
+                "2 - View Savings Account\n" +
+                "3 - Exit\n" +
+                "  \n" +
+                "Enter your choice: ");
 
         int selection = menuInput.nextInt();
 
@@ -79,12 +85,15 @@ public class OptionMenu extends Account {
     }
 
     public void getChecking(){
-        System.out.println("Checking Account: ");
-        System.out.println("type 1 - View Balance");
-        System.out.println("Type 2 - Withdraw Funds");
-        System.out.println("Type 3 - Deposit");
-        System.out.println("Type 4 Exit");
-        System.out.println("Choice: ");
+
+        System.out.println("Great, here are your options for your checking account. How would you like to proceed?\n" +
+                "\n" +
+                "1 - View Balance\n" +
+                "2 - Withdraw Funds\n" +
+                "3 - Deposit Funds\n" +
+                "4 - Exit\n" +
+                "  \n" +
+                "Enter your choice: ");
 
         int selection = menuInput.nextInt();
 
@@ -112,12 +121,15 @@ public class OptionMenu extends Account {
     }
 
     public void getSaving(){
-        System.out.println("Savings Account: ");
-        System.out.println("type 1 - View Balance");
-        System.out.println("Type 2 - Withdraw Funds");
-        System.out.println("Type 3 - Deposit");
-        System.out.println("Type 4 Exit");
-        System.out.println("Choice: ");
+
+        System.out.println("Great, here are your options for your Savings account. How would you like to proceed?\n" +
+                "\n" +
+                "1 - View Balance\n" +
+                "2 - Withdraw Funds\n" +
+                "3 - Deposit Funds\n" +
+                "4 - Exit\n" +
+                "  \n" +
+                "Enter your choice: ");
 
         int selection = menuInput.nextInt();
 
