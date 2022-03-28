@@ -3,15 +3,13 @@ package BankApp;
 import java.io.*;
 import java.util.Scanner;
 
+
 public class bankApp extends Account {
 
-    double accountBalance = 0;
 
-
-    public bankApp(String name, String id) {
-        super(name, id);
+    public bankApp(String name, double balance) {
+        super(name, balance);
     }
-
 
     public static void runProgram() throws IOException {
 
@@ -74,7 +72,7 @@ public class bankApp extends Account {
         in.close();
         exitOption();
 
-        return null;
+        return checkBalance();
     }
 
 
@@ -84,41 +82,53 @@ public class bankApp extends Account {
 
         Scanner input = new Scanner(System.in);
 
+//        FileReader file = new FileReader("src/data/checkingAccount.txt");
+//        BufferedReader bf = new BufferedReader(file);
+//
+//        String st = bf.readLine();
+
 
         double accountBalance = 0;
         double newdeposit = 0;
         double newBalance = accountBalance + newdeposit;
+        FileReader i =  new FileReader("src/data/checkingAccount.txt");
 
 
-//        System.out.printf("Your current balance is: %s \n", checkBalance());
-            System.out.print("How much would you like to deposit? ");
-            double option = input.nextDouble();
-
-            System.out.printf("You deposited %.2f \n", option);
-
-            System.out.println("Would you like to make another deposit? [y/N");
-            String answer = input.next();
 
 
-            if(answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("Yes")){
-                System.out.println("How much would you like to deposit? ");
-                double response2 = input.nextDouble();
-                System.out.printf("You deposited %.2f \n Your total balance is: %.2f\n", response2, (option + response2));
-            }else if(answer.equalsIgnoreCase("N") || answer.equalsIgnoreCase("no")){
-                System.out.printf("Your balance is %.2f", option);
+        System.out.printf("Your current balance is: %s \n", checkBalance());
+        System.out.print("How much would you like to deposit? ");
+        double option = input.nextDouble();
 
-                String str;
-                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-                System.out.println(" Enter text ('stop' to quit).");
+        System.out.printf("You deposited %.2f \n", option);
 
-                try(DataOutputStream dataOut = new DataOutputStream(new FileOutputStream("src/data/checkingAccount.txt"))){
-                    System.out.println("writing: " + answer);
-                    dataOut.writeDouble(Integer.parseInt(answer + checkBalance()));
-                }catch (IOException exc){
-                    System.out.println("Writing error.");
-                    return;
-                }
-                System.out.println();
+
+        System.out.println("Would you like to make another deposit? [y/N");
+        String answer = input.next();
+
+
+        if(answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("Yes")){
+            System.out.println("How much would you like to deposit? ");
+            double response2 = input.nextDouble();
+            System.out.printf("You deposited %.2f \n Your total balance is: %.2f\n", response2);
+        }else if(answer.equalsIgnoreCase("N") || answer.equalsIgnoreCase("no")){
+            System.out.printf("Your balance is %.2f", option);
+
+
+
+
+//                String str;
+//                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//                System.out.println(" Enter text ('stop' to quit).");
+//
+//                try(DataOutputStream dataOut = new DataOutputStream(new FileOutputStream("src/data/checkingAccount.txt"))){
+//                    System.out.println("writing: " + answer);
+//                    dataOut.writeDouble(Integer.parseInt(answer + checkBalance()));
+//                }catch (IOException exc){
+//                    System.out.println("Writing error.");
+//                    return;
+//                }
+//                System.out.println();
 
 
 
@@ -147,16 +157,20 @@ public class bankApp extends Account {
 //                } catch (IOException e) {
 //                    e.printStackTrace();
 //                }
-            }else{
-                System.out.println();
-
+//            }else{
+//                System.out.println();
+//
             }
             checkBalance();
             displayMenu();
     }
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args)throws IOException {
+
+        ;
+
+
 
         displayMenu();
 //        optionTwo();
