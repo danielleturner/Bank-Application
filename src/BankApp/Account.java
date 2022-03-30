@@ -5,40 +5,44 @@ import java.io.IOException;
 public class Account {
 
 
-    String name;
-    private double balance;
+    private double checkingBalance;
+    private double savingsBalance;
 
-    public Account(String name, double balance) {
-        this.name = name;
-        this.balance = balance;
+    public Account(double checkingBalance, double savingsBalance) {
+        this.checkingBalance = checkingBalance;
+        this.savingsBalance = savingsBalance;
     }
 
-    public String getName() {
-        return name;
+    public double getCheckingBalance() {
+        return checkingBalance;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCheckingBalance(double checkingBalance) {
+        this.checkingBalance = checkingBalance;
     }
 
-    public double getBalance() {
-        return balance;
+    public double getSavingsBalance() {
+        return savingsBalance;
     }
 
-    public void setBalance(double balance) {
-        this.balance = balance;
+    public void setSavingsBalance(double savingsBalance) {
+        this.savingsBalance = savingsBalance;
     }
 
-
-    @Override
-    public String toString(){
-        return("Hi " + this.getName() + ", the balance of your account is " + this.getBalance());
+    public double depositToChecking(double amount){
+        checkingBalance = (checkingBalance + amount);
+        return checkingBalance;
     }
+
+    //    @Override
+//    public String toString(){
+//        return("Hi " + this.getName() + ", the balance of your account is " + this.getBalance());
+//    }
 
     public static void main(String[] args) throws IOException {
 
-        Account Danny = new Account("Danny", 500.00);
-        System.out.println(Danny);
+//        Account Danny = new Account("Danny", 500.00);
+//        System.out.println(Danny);
 
     }
 

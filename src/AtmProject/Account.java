@@ -18,6 +18,7 @@ public class Account {
         this.customerNumber = customerNumber;
     }
 
+    // constructor created for the overloaded method
     public Account() {
 
     }
@@ -90,7 +91,7 @@ public class Account {
             calcSavingWithdraw(amount);
             System.out.println("Your new Savings balance is: " +  moneyFormat.format(savingBalance));
         }else{
-            System.out.println("Balance cannot be a negative number");
+            System.out.println("Your balance cannot be a negative number");
         }
     }
 
@@ -103,7 +104,7 @@ public class Account {
             calcCheckingDeposit(amount);
             System.out.println("Your new Checking account balance is: " +  moneyFormat.format(checkingBalance));
         }else{
-            System.out.println("Balance cannot be a negative number");
+            System.out.println("Your balance cannot be a negative number");
         }
     }
 
@@ -116,7 +117,7 @@ public class Account {
             calcSavingDeposit(amount);
             System.out.println("Your new Savings account balance is: " +  moneyFormat.format(savingBalance));
         }else{
-            System.out.println("Balance cannot be a negative number");
+            System.out.println("your balance cannot be a negative number");
         }
     }
 }
