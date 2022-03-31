@@ -27,41 +27,43 @@ public class bankApp extends Account {
 
         int x = 1;
         do {
-        Scanner input = new Scanner(System.in);
+            Scanner input = new Scanner(System.in);
 
-        System.out.println("Thank you for logging in what would you like to do?\n" +
-                "\n" +
-                "0 - exit\n" +
-                "1 - Checking Balance\n" +
-                "2 - Savings Balance\n" +
-                "3 - Deposit\n" +
-                "4 - Withdraw\n" +
-                "\n" +
-                "Enter your choice: ");
+            System.out.println("Thank you for logging in what would you like to do?\n" +
+                    "\n" +
+                    "0 - exit\n" +
+                    "1 - Checking Balance\n" +
+                    "2 - Savings Balance\n" +
+                    "3 - Deposit\n" +
+                    "4 - Withdraw\n" +
+                    "\n" +
+                    "Enter your choice: ");
 
-        int response = input.nextInt();
+            int response = input.nextInt();
 
-        if (response == 0){
-            exitOption();
-        }else if(response == 1){
-            checkingBalance();
-        }else if(response == 2){
-            savingsBalance();
-        }else if(response == 3){
-            depositChecking();
-        }else if(response == 4){
-            withdrawFunds();
-        }else{
-            System.out.println("You entered a invalid choice '\n' Please try again later");
-            exitOption();
-            x = 2;
-        }
-        }while (x == 1);
+            if (response == 0) {
+                x = 2;
+            } else if (response == 1) {
+                checkingBalance();
+            } else if (response == 2) {
+                savingsBalance();
+            } else if (response == 3) {
+                depositChecking();
+            } else if (response == 4) {
+                withdrawFunds();
+            } else {
+                System.out.println("You entered a invalid choice '\n' Please try again later");
+                exitOption();
+                x = 3;
+            }
+        } while (x == 1);
+
     }
 
 
     public static void exitOption() {
         System.out.println("Thank you for visiting have a nice day!");
+
 
     }
 
@@ -79,7 +81,7 @@ public class bankApp extends Account {
             if (response.equalsIgnoreCase("y") || response.equalsIgnoreCase("yes")) {
                 try {
                     BufferedReader reader = new BufferedReader(new FileReader("/Users/danielleturner/IdeaProjects/Bank Application/Checking.txt"));
-                    System.out.println(reader.readLine()); // this line reads the balance from the text file
+                    System.out.println("Your balance is: $" + reader.readLine()); // this line reads the balance from the text file
                     reader.close();
                 } catch (IOException e) {
                     System.out.println("Oops Something went wrong");
@@ -87,42 +89,50 @@ public class bankApp extends Account {
                     checkingBalance();
                 }
             } else if (response.equalsIgnoreCase("n") || response.equalsIgnoreCase("no")) {
-                System.out.println();
+                exitOption();
+                x = 2;
+                return;
             }
 
             System.out.println("Would you like to add funds to your Checking Account? [y/N]");
             String answer = scanner.nextLine();
-            if(answer.equalsIgnoreCase("y") ||  answer.equalsIgnoreCase("yes")) {
+            if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
                 depositChecking();
-            }else if(answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")){
-                System.out.println("You are being redirected to the main menue\n" +
-                        "\n" +
-                        "0 - exit\n" +
-                        "1 - Checking Balance\n" +
-                        "2 - Savings Balance\n" +
-                        "3 - Deposit\n" +
-                        "4 - Withdraw\n" +
-                        "Enter your choice: ");
-
-                int choice = scanner.nextInt();
-
-                if (choice == 0){
-                    exitOption();
-                }else if(choice == 1){
-                    checkingBalance();
-                }else if(choice == 2){
-                    savingsBalance();
-                }else if(choice == 3){
-                    depositChecking();
-                }else if(choice == 4){
-                    withdrawFunds();
-                }else{
-                    System.out.println("You entered a invalid choice");
-                    exitOption();
-                }
+            } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
+                System.out.println("You are being redirected to the main menu");
+                displayMenu();
+                x = 2;
+                System.out.println();
+//                System.out.println("You are being redirected to the main menue\n" +
+//                        "\n" +
+//                        "0 - exit\n" +
+//                        "1 - Checking Balance\n" +
+//                        "2 - Savings Balance\n" +
+//                        "3 - Deposit\n" +
+//                        "4 - Withdraw\n" +
+//                        "Enter your choice: ");
+//
+//                int choice = scanner.nextInt();
+//
+//                if (choice == 0){
+//                    exitOption();
+//                    x = 2;
+//                    return;
+//                }else if(choice == 1){
+//                    checkingBalance();
+//                }else if(choice == 2){
+//                    savingsBalance();
+//                }else if(choice == 3){
+//                    depositChecking();
+//                }else if(choice == 4){
+//                    withdrawFunds();
+//                }else{
+//                    System.out.println("You entered a invalid choice");
+//                    exitOption();
+//                }
             }
-        }while (x == 1);
-
+        } while (x == 1);
+        exitOption();
 
     }
 
@@ -179,7 +189,7 @@ public class bankApp extends Account {
                 System.out.println("Have a nice day.");
                 exitOption();
             }
-        }while(x == 1);
+        } while (x == 1);
 
 
     }
@@ -194,52 +204,50 @@ public class bankApp extends Account {
         int x = 1;
         do {     // Reading text.file//
             BufferedReader writer = new BufferedReader(new FileReader("Checking.txt"));
-                    writer.close();
-            try{
+            writer.close();
+            try {
                 System.out.println("How much would you like to deposit? ");
                 Scanner input = new Scanner(System.in);
                 double deposit = input.nextDouble();
-                System.out.println("You deposited: " +  dollarFormat.format(deposit));
+                System.out.println("You deposited: " + dollarFormat.format(deposit));
+
+                File file = new File("Checking.txt");
+                BufferedReader br = new BufferedReader(new FileReader(file)); //Preparing file for reading
+                // going through lines that are being read
+                try {
+                    while ((st = br.readLine()) != null) {
+                        sumofTextNumbers += Integer.parseInt(st);
+
+                        System.out.println("Your new balance is: " + dollarFormat.format(sumofTextNumbers + deposit));
+                        double newbalance = sumofTextNumbers + deposit;
+                        FileWriter depositWriter = new FileWriter("Checking.txt");
+                        depositWriter.write(String.valueOf((int) newbalance)); // casting the double balance into an int so that it can be written into the text fil
+                        depositWriter.close();
+                        System.out.println("Success");
+                    }
+
+                } catch (IOException e) {
+                    System.out.println("Oops something went wrong");
+                }
 
                 System.out.println("Would you like to make another deposit? [y/N]");
                 String nextdeposit = input.next();
 
-//                File file = new File("/Users/danielleturner/IdeaProjects/Bank Application/Checking.txt");
-//
-//                BufferedReader br = new BufferedReader(new FileReader(file));
-
-                if(nextdeposit.equalsIgnoreCase("y") || nextdeposit.equalsIgnoreCase("Y")){
-
+                if (nextdeposit.equalsIgnoreCase("y") || nextdeposit.equalsIgnoreCase("Y")) {
                     depositChecking();
-                }else if (nextdeposit.equalsIgnoreCase("n") || nextdeposit.equalsIgnoreCase("N")){
-                    File file = new File("Checking.txt");
-                    BufferedReader br = new BufferedReader(new FileReader(file)); //Preparing file for reading
-                    // going through lines that are being read
-                    try {
-                        while((st = br.readLine()) != null){
-                            sumofTextNumbers += Integer.parseInt(st);
-                        }
-                        System.out.println("Your new balance is: " + dollarFormat.format(sumofTextNumbers + deposit));
-                        FileWriter depositWriter = new FileWriter("Checking.txt");
-                        depositWriter.write(dollarFormat.format(sumofTextNumbers + deposit));
-                        depositWriter.close();
-                    }catch (IOException e){
-                        System.out.println("Oops something went wrong");
-                    }
-//                    System.out.println("Your new balance in: " + dollarFormat.format(sumofTextNumbers));
+                } else if (nextdeposit.equalsIgnoreCase("n") || nextdeposit.equalsIgnoreCase("N")) {
                     displayMenu();
                 }
-            }catch (InputMismatchException e) {
+            } catch (InputMismatchException e) {
                 System.out.println("Please enter a number value");
                 x = 2;
                 depositChecking();
             }
-        }while (x == 1);
+        } while (x == 1);
     }
 
 
-
-    public static void depositSavings() throws FileNotFoundException{
+    public static void depositSavings() throws FileNotFoundException {
 
         DecimalFormat dollarFormat = new DecimalFormat("'$'###,###.##");
 
@@ -250,7 +258,7 @@ public class bankApp extends Account {
         System.out.println("How much would you like to deposit? ");
     }
 
-    public static void withdrawFunds(){
+    public static void withdrawFunds() {
 
         DecimalFormat dollarFormat = new DecimalFormat("'$'###,###.##");
 
