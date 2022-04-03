@@ -200,7 +200,7 @@ public class bankApp extends Account {
         DecimalFormat dollarFormat = new DecimalFormat("'$'###,###.##");
 
         String st;
-        int sumofTextNumbers = 0;
+        double sumofTextNumbers = 0;
         int x = 1;
         do {     // Reading text.file//
             BufferedReader writer = new BufferedReader(new FileReader("Checking.txt"));
@@ -221,7 +221,7 @@ public class bankApp extends Account {
                         System.out.println("Your new balance is: " + dollarFormat.format(sumofTextNumbers + deposit));
                         double newbalance = sumofTextNumbers + deposit;
                         FileWriter depositWriter = new FileWriter("Checking.txt");
-                        depositWriter.write(String.valueOf((int) newbalance)); // casting the double balance into an int so that it can be written into the text fil
+                        depositWriter.write(String.valueOf(newbalance)); // casting the double balance into an int so that it can be written into the text fil
                         depositWriter.close();
                         System.out.println("Success");
                     }
