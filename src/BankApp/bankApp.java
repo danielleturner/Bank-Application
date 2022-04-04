@@ -150,16 +150,9 @@ public class bankApp extends Account {
                         double newbalance = sumofTextNumbers + deposit;
                         System.out.println(newbalance);
                         FileWriter depositWriter = new FileWriter("Checking.txt");
-                        depositWriter.write((int) (newbalance));
+                        depositWriter.write(new String (String.valueOf(newbalance)));
                         newbalance = Double.parseDouble(st);
                         depositWriter.close();
-//
-//                        BufferedReader reader = new BufferedReader(new FileReader("Checking.txt"));
-//                        System.out.println("Your balance is: $ " + reader.readLine());
-//                        double changeBalance = newbalance;
-//                        depositWriter.write(String.valueOf(newbalance)); // casting the double balance into an int so that it can be written into the text fil
-////                        depositWriter.close();
-//
                         System.out.println("Success");
 
                     }
@@ -261,7 +254,7 @@ public class bankApp extends Account {
                         System.out.println("Your new balance is: " + dollarFormat.format(sumofTextNumbers + deposit));
                         double newbalance = sumofTextNumbers + deposit;
                         FileWriter depositWriter = new FileWriter("Savings.txt");
-                        depositWriter.write(String.valueOf(newbalance)); // casting the double balance into an int so that it can be written into the text fil
+                        depositWriter.write(new String (String.valueOf(newbalance))); // casting the double balance into an int so that it can be written into the text fil
                         depositWriter.close();
                         System.out.println("Success");
                     }
