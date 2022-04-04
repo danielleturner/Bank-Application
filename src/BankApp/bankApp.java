@@ -1,5 +1,5 @@
 package BankApp;
-
+import java.io.FileOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -71,7 +71,7 @@ public class bankApp extends Account {
 
     public static void checkingBalance() throws IOException {
 
-        DecimalFormat dollarFormat = new DecimalFormat("'$'###,###.##");
+        DecimalFormat dollarFormat = new DecimalFormat("'$'###,###.00");
         int x = 1;
 
         do {
@@ -82,7 +82,7 @@ public class bankApp extends Account {
             if (response.equalsIgnoreCase("y") || response.equalsIgnoreCase("YES")) {
                 try {
                     BufferedReader reader = new BufferedReader(new FileReader("Checking.txt"));
-                    System.out.println("Your balance is: $" + reader.readLine()); // this line reads the balance from the text file
+                    System.out.println("Your balance is: $ " + reader.readLine()); // this line reads the balance from the text file
                     reader.close();
                 } catch (IOException e) {
                     System.out.println("Oops Something went wrong");
@@ -117,14 +117,13 @@ public class bankApp extends Account {
      **/
     public static void depositChecking() throws IOException {
 
-        DecimalFormat dollarFormat = new DecimalFormat("'$'###,###.##");
+        DecimalFormat dollarFormat = new DecimalFormat("'$'###,###.00");
 
         int x = 1;
         do {     // Reading text.file//
 
             String st;
             double sumofTextNumbers = 0;
-
 
             try {
 
@@ -133,7 +132,11 @@ public class bankApp extends Account {
                 System.out.println("How much would you like to deposit to your checking account? ");
                 Scanner input = new Scanner(System.in);
                 double deposit = input.nextDouble();
+
                 System.out.println("You deposited: " + dollarFormat.format(deposit));
+                BufferedReader writer1 = new BufferedReader(new FileReader("Checking.txt"));
+                writer1.readLine();
+                writer.close();
 
                 try {
                     File file = new File("Checking.txt");
@@ -141,27 +144,28 @@ public class bankApp extends Account {
                     // going through lines that are being read
 
                     while ((st = br.readLine()) != null) {
-                        sumofTextNumbers += Integer.parseInt(st);
+                        sumofTextNumbers += Double.parseDouble(st);
 
                         System.out.println("Your new balance is: " + dollarFormat.format(sumofTextNumbers + deposit));
                         double newbalance = sumofTextNumbers + deposit;
                         System.out.println(newbalance);
                         FileWriter depositWriter = new FileWriter("Checking.txt");
+                        depositWriter.write((int) (newbalance));
+                        newbalance = Double.parseDouble(st);
+                        depositWriter.close();
+//
+//                        BufferedReader reader = new BufferedReader(new FileReader("Checking.txt"));
+//                        System.out.println("Your balance is: $ " + reader.readLine());
 //                        double changeBalance = newbalance;
-//                        newbalance += Integer.parseInt(st);
-                        depositWriter.write(String.valueOf(newbalance)); // casting the double balance into an int so that it can be written into the text fil
-//                        depositWriter.close();
-
-
-//                        FileWriter changeNumber = new FileWriter("Checking.txt");
-//                        changeNumber.write(String.valueOf(changeBalance));
+//                        depositWriter.write(String.valueOf(newbalance)); // casting the double balance into an int so that it can be written into the text fil
+////                        depositWriter.close();
+//
                         System.out.println("Success");
+
                     }
 
                 } catch (NumberFormatException e) {
-                    BufferedReader writer1 = new BufferedReader(new FileReader("Checking.txt"));
-                    writer1.readLine();
-                    writer.close();
+
                     System.out.println("Oops something went wrong");
                 }
 
@@ -180,6 +184,7 @@ public class bankApp extends Account {
                 depositSavings();
             }
         } while (x == 1);
+
     }
 
     /**
@@ -214,7 +219,7 @@ public class bankApp extends Account {
             System.out.println("Would you like to add funds to your Savings Account? [y/N]");
             String answer = scanner.nextLine();
             if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
-                x = 2;
+                depositSavings();
             } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
                 System.out.println("You are being redirected to the main menu");
                 displayMenu();
@@ -251,7 +256,7 @@ public class bankApp extends Account {
                 // going through lines that are being read
                 try {
                     while ((st = br.readLine()) != null) {
-                        sumofTextNumbers += Integer.parseInt(st);
+                        sumofTextNumbers += Double.parseDouble(st);
 
                         System.out.println("Your new balance is: " + dollarFormat.format(sumofTextNumbers + deposit));
                         double newbalance = sumofTextNumbers + deposit;
@@ -286,6 +291,7 @@ public class bankApp extends Account {
         DecimalFormat dollarFormat = new DecimalFormat("'$'###,###.##");
 
     }
+
 
 
     public static void main(String[] args) throws IOException {
