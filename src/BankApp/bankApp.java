@@ -79,7 +79,7 @@ public class bankApp extends Account {
 
             System.out.println("Would you like to view your account balance? [y/N]");
             String response = scanner.nextLine();
-            if (response.equalsIgnoreCase("y") || response.equalsIgnoreCase("yes")) {
+            if (response.equalsIgnoreCase("y") || response.equalsIgnoreCase("YES")) {
                 try {
                     BufferedReader reader = new BufferedReader(new FileReader("Checking.txt"));
                     System.out.println("Your balance is: $" + reader.readLine()); // this line reads the balance from the text file
@@ -87,12 +87,12 @@ public class bankApp extends Account {
                 } catch (IOException e) {
                     System.out.println("Oops Something went wrong");
                     x = 2;
-                    checkingBalance();
                 }
             } else if (response.equalsIgnoreCase("n") || response.equalsIgnoreCase("no")) {
-                exitOption();
-                x = 2;
-                return;
+                displayMenu();
+            } else {
+                System.out.println("Please enter a valid response");
+                checkingBalance();
             }
 
             System.out.println("Would you like to add funds to your Checking Account? [y/N]");
@@ -102,55 +102,67 @@ public class bankApp extends Account {
             } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
                 System.out.println("You are being redirected to the main menu");
                 displayMenu();
-                x = 2;
                 System.out.println();
+            } else {
+                System.out.println("Please enter a valid response");
+                checkingBalance();
             }
         } while (x == 1);
         exitOption();
-
     }
 
-    public static void depositChecking() throws IOException {
 
+    /**
+     * DEPOSIT CHECKING BELOW
+     **/
+    public static void depositChecking() throws IOException {
 
         DecimalFormat dollarFormat = new DecimalFormat("'$'###,###.##");
 
-        String st;
-        double sumofTextNumbers = 0;
         int x = 1;
         do {     // Reading text.file//
-            BufferedReader writer = new BufferedReader(new FileReader("Checking.txt"));
-            writer.close();
+
+            String st;
+            double sumofTextNumbers = 0;
+
+
             try {
-                System.out.println("How much would you like to deposit? ");
+
+                BufferedReader writer = new BufferedReader(new FileReader("Checking.txt"));
+                writer.close();
+                System.out.println("How much would you like to deposit to your checking account? ");
                 Scanner input = new Scanner(System.in);
                 double deposit = input.nextDouble();
-                System.out.println("You deposited: $ " + dollarFormat.format(deposit));
+                System.out.println("You deposited: " + dollarFormat.format(deposit));
 
-                File file = new File("Checking.txt");
-                BufferedReader br = new BufferedReader(new FileReader(file)); //Preparing file for reading
-                // going through lines that are being read
                 try {
+                    File file = new File("Checking.txt");
+                    BufferedReader br = new BufferedReader(new FileReader(file)); //Preparing file for reading
+                    // going through lines that are being read
+
                     while ((st = br.readLine()) != null) {
-                        int i = Integer.parseInt(st);
                         sumofTextNumbers += Integer.parseInt(st);
 
                         System.out.println("Your new balance is: " + dollarFormat.format(sumofTextNumbers + deposit));
-//                        double newbalance = sumofTextNumbers + deposit;
+                        double newbalance = sumofTextNumbers + deposit;
+                        System.out.println(newbalance);
                         FileWriter depositWriter = new FileWriter("Checking.txt");
-                        depositWriter.write(String.valueOf(sumofTextNumbers + deposit)); // casting the double balance into an int so that it can be written into the text fil
-                        depositWriter.close();
+//                        double changeBalance = newbalance;
+//                        newbalance += Integer.parseInt(st);
+                        depositWriter.write(String.valueOf(newbalance)); // casting the double balance into an int so that it can be written into the text fil
+//                        depositWriter.close();
+
+
+//                        FileWriter changeNumber = new FileWriter("Checking.txt");
+//                        changeNumber.write(String.valueOf(changeBalance));
                         System.out.println("Success");
                     }
 
-                } catch (IOException e) {
+                } catch (NumberFormatException e) {
+                    BufferedReader writer1 = new BufferedReader(new FileReader("Checking.txt"));
+                    writer1.readLine();
+                    writer.close();
                     System.out.println("Oops something went wrong");
-                } catch(NumberFormatException ex){ // handle your exception
-                    double newbalance = sumofTextNumbers + deposit;
-                    FileWriter newDepoistWriter = new FileWriter("Checking.txt");
-                    newDepoistWriter.write(String.valueOf(newbalance));
-                    System.out.println("Hopefully this works");
-
                 }
 
                 System.out.println("Would you like to make another deposit? [y/N]");
@@ -159,17 +171,20 @@ public class bankApp extends Account {
                 if (nextdeposit.equalsIgnoreCase("y") || nextdeposit.equalsIgnoreCase("Y")) {
                     depositChecking();
                 } else if (nextdeposit.equalsIgnoreCase("n") || nextdeposit.equalsIgnoreCase("N")) {
+                    System.out.println();
                     displayMenu();
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Please enter a number value");
                 x = 2;
-                depositChecking();
+                depositSavings();
             }
         } while (x == 1);
     }
 
-
+    /**
+     * SAVINGS BALANCE BELLOW
+     **/
     public static void savingsBalance() throws IOException {
 
         DecimalFormat dollarFormat = new DecimalFormat("'$'###,###.##");
@@ -199,7 +214,7 @@ public class bankApp extends Account {
             System.out.println("Would you like to add funds to your Savings Account? [y/N]");
             String answer = scanner.nextLine();
             if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
-                depositSavings();
+                x = 2;
             } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
                 System.out.println("You are being redirected to the main menu");
                 displayMenu();
@@ -212,9 +227,9 @@ public class bankApp extends Account {
 
     }
 
-
-
-
+    /**
+     * DEPOSIT SAVINGS BELOW
+     **/
     public static void depositSavings() throws IOException {
 
         DecimalFormat dollarFormat = new DecimalFormat("'$'###,###.##");
@@ -231,7 +246,7 @@ public class bankApp extends Account {
                 double deposit = input.nextDouble();
                 System.out.println("You deposited: " + dollarFormat.format(deposit));
 
-                File file = new File("/Users/danielleturner/IdeaProjects/Bank Application/src/Savings.txt");
+                File file = new File("Savings.txt");
                 BufferedReader br = new BufferedReader(new FileReader(file)); //Preparing file for reading
                 // going through lines that are being read
                 try {
@@ -246,7 +261,7 @@ public class bankApp extends Account {
                         System.out.println("Success");
                     }
 
-                } catch (IOException e) {
+                } catch (NumberFormatException e) {
                     System.out.println("Oops something went wrong");
                 }
 
