@@ -317,7 +317,7 @@ public class bankApp extends Account {
 
                                 System.out.println("Your new balance is: " + dollarFormat.format(sumofTextNumbers - withdrawl));
                                 double newbalance = sumofTextNumbers - withdrawl;
-                                System.out.println(newbalance);
+//                                System.out.println(newbalance);
                                 FileWriter depositWriter = new FileWriter("Checking.txt");
                                 depositWriter.write(new String (String.valueOf(newbalance)));
                                 newbalance = Double.parseDouble(st);
@@ -336,7 +336,6 @@ public class bankApp extends Account {
                                     }
                                 }
                             }
-
                         }
                     } catch (NumberFormatException e) {
                         System.out.println("Oops something went wrong");
@@ -348,6 +347,69 @@ public class bankApp extends Account {
             } while (x == 1);
 
         }else if(response == 2){
+
+            int x = 1;
+            do {     // Reading text.file//
+
+                String st;
+                double sumofTextNumbers = 0;
+
+                try {
+
+                    BufferedReader writer = new BufferedReader(new FileReader("Savings.txt"));
+                    writer.close();
+                    System.out.println("How much would you like to withdraw from your savings account? ");
+                    Scanner inputA = new Scanner(System.in);
+                    double withdrawl = input.nextDouble();
+
+                    System.out.println("You are about to withdraw: " + dollarFormat.format(withdrawl));
+                    BufferedReader writer1 = new BufferedReader(new FileReader("Savings.txt"));
+                    writer1.readLine();
+                    writer.close();
+
+                    try {
+                        File file = new File("Savings.txt");
+                        BufferedReader br = new BufferedReader(new FileReader(file)); //Preparing file for reading
+                        // going through lines that are being read
+
+                        while ((st = br.readLine()) != null) {
+                            sumofTextNumbers += Double.parseDouble(st);
+
+                            if(withdrawl > sumofTextNumbers){
+                                System.out.println("You cant over draw");
+                                x = 2;
+                            }else {
+
+                                System.out.println("Your new balance is: " + dollarFormat.format(sumofTextNumbers - withdrawl));
+                                double newbalance = sumofTextNumbers - withdrawl;
+//                                System.out.println(newbalance);
+                                FileWriter depositWriter = new FileWriter("Savings.txt");
+                                depositWriter.write(new String (String.valueOf(newbalance)));
+                                newbalance = Double.parseDouble(st);
+                                depositWriter.close();
+                                System.out.println("Success");
+
+                                System.out.println("Would you like to make another withdrawal? [y/N]");
+                                String nextwithdrawl = input.next();
+                                if (nextwithdrawl.equalsIgnoreCase("y") || nextwithdrawl.equalsIgnoreCase("Y")) {
+                                    withdrawFunds();
+                                } else if (nextwithdrawl.equalsIgnoreCase("n") || nextwithdrawl.equalsIgnoreCase("N")) {
+                                    x = 3;
+                                }else{
+                                    if( nextwithdrawl.isBlank()){
+                                        System.out.println("You cant withdraw negative amount");
+                                    }
+                                }
+                            }
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Oops something went wrong");
+                    }
+                } catch (InputMismatchException | IOException e) {
+                    System.out.println("Please enter a number value");
+                    x = 2;
+                }
+            } while (x == 1);
 
         }else{
             System.out.println("Please enter a valid input");
