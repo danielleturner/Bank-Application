@@ -49,23 +49,22 @@ public class bankApp extends Account {
             } else if (response == 2) {
                 savingsBalance();
             } else if (response == 3) {
-                depositChecking();
+                deposit();
             } else if (response == 4) {
                 withdrawFunds();
             } else {
                 System.out.println("You entered a invalid choice '\n' Please try again later");
-                exitOption();
-                x = 3;
+
             }
         } while (x == 1);
+        exitOption();
+
 
     }
 
 
     public static void exitOption() {
         System.out.println("Thank you for visiting have a nice day!");
-
-
     }
 
 
@@ -84,29 +83,27 @@ public class bankApp extends Account {
                     BufferedReader reader = new BufferedReader(new FileReader("Checking.txt"));
                     System.out.println("Your balance is: $ " + reader.readLine()); // this line reads the balance from the text file
                     reader.close();
+
+                    System.out.println("Would you like to add funds to your Checking Account? [y/N]");
+                    String answer = scanner.nextLine();
+                    if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
+                        depositChecking();
+                    } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
+                        System.out.println("You are being redirected to the main menu");
+                        x = 3;
+                    } else {
+                        System.out.println("Please enter a valid response");
+                        checkingBalance();
+                    }
                 } catch (IOException e) {
                     System.out.println("Oops Something went wrong");
-                    x = 2;
                 }
             } else if (response.equalsIgnoreCase("n") || response.equalsIgnoreCase("no")) {
-                displayMenu();
+                x = 2;
             } else {
                 System.out.println("Please enter a valid response");
-                checkingBalance();
             }
 
-            System.out.println("Would you like to add funds to your Checking Account? [y/N]");
-            String answer = scanner.nextLine();
-            if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
-                depositChecking();
-            } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
-                System.out.println("You are being redirected to the main menu");
-                displayMenu();
-                System.out.println();
-            } else {
-                System.out.println("Please enter a valid response");
-                checkingBalance();
-            }
         } while (x == 1);
         exitOption();
     }
@@ -148,33 +145,28 @@ public class bankApp extends Account {
 
                         System.out.println("Your new balance is: " + dollarFormat.format(sumofTextNumbers + deposit));
                         double newbalance = sumofTextNumbers + deposit;
-                        System.out.println(newbalance);
+//                        System.out.println(newbalance);
                         FileWriter depositWriter = new FileWriter("Checking.txt");
                         depositWriter.write(new String (String.valueOf(newbalance)));
                         newbalance = Double.parseDouble(st);
                         depositWriter.close();
                         System.out.println("Success");
 
+                        System.out.println("Would you like to make another deposit? [y/N]");
+                        String nextdeposit = input.next();
+
+                        if (nextdeposit.equalsIgnoreCase("y") || nextdeposit.equalsIgnoreCase("Y")) {
+                            depositChecking();
+                        } else if (nextdeposit.equalsIgnoreCase("n") || nextdeposit.equalsIgnoreCase("N")) {
+                            x = 3;
+                        }
                     }
-
                 } catch (NumberFormatException e) {
-
                     System.out.println("Oops something went wrong");
-                }
-
-                System.out.println("Would you like to make another deposit? [y/N]");
-                String nextdeposit = input.next();
-
-                if (nextdeposit.equalsIgnoreCase("y") || nextdeposit.equalsIgnoreCase("Y")) {
-                    depositChecking();
-                } else if (nextdeposit.equalsIgnoreCase("n") || nextdeposit.equalsIgnoreCase("N")) {
-                    System.out.println();
-                    displayMenu();
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Please enter a number value");
                 x = 2;
-                depositSavings();
             }
         } while (x == 1);
 
@@ -203,26 +195,19 @@ public class bankApp extends Account {
                     x = 2;
                     savingsBalance();
                 }
-            } else if (response.equalsIgnoreCase("n") || response.equalsIgnoreCase("no")) {
-                exitOption();
-                x = 2;
-                return;
-            }
 
-            System.out.println("Would you like to add funds to your Savings Account? [y/N]");
-            String answer = scanner.nextLine();
-            if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
-                depositSavings();
-            } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
-                System.out.println("You are being redirected to the main menu");
-                displayMenu();
+                System.out.println("Would you like to add funds to your Savings Account? [y/N]");
+                String answer = scanner.nextLine();
+                if (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes")) {
+                    depositSavings();
+                } else if (answer.equalsIgnoreCase("n") || answer.equalsIgnoreCase("no")) {
+                    System.out.println("You are being redirected to the main menu");
+                    displayMenu();;
+                }
+            } else if (response.equalsIgnoreCase("n") || response.equalsIgnoreCase("no")) {
                 x = 2;
-                System.out.println();
             }
         } while (x == 1);
-        exitOption();
-
-
     }
 
     /**
@@ -232,49 +217,58 @@ public class bankApp extends Account {
 
         DecimalFormat dollarFormat = new DecimalFormat("'$'###,###.##");
 
-        String st;
-        double sumofTextNumbers = 0;
         int x = 1;
         do {     // Reading text.file//
-            BufferedReader writer = new BufferedReader(new FileReader("Savings.txt"));
-            writer.close();
+
+            String st;
+            double sumofTextNumbers = 0;
+
             try {
+
+                BufferedReader writer = new BufferedReader(new FileReader("Savings.txt"));
+                writer.close();
                 System.out.println("How much would you like to deposit to your savings account? ");
                 Scanner input = new Scanner(System.in);
                 double deposit = input.nextDouble();
-                System.out.println("You deposited: " + dollarFormat.format(deposit));
 
-                File file = new File("Savings.txt");
-                BufferedReader br = new BufferedReader(new FileReader(file)); //Preparing file for reading
-                // going through lines that are being read
+                System.out.println("You deposited: " + dollarFormat.format(deposit));
+                BufferedReader writer1 = new BufferedReader(new FileReader("Savings.txt"));
+                writer1.readLine();
+                writer.close();
+
                 try {
+                    File file = new File("Savings.txt");
+                    BufferedReader br = new BufferedReader(new FileReader(file)); //Preparing file for reading
+                    // going through lines that are being read
+
                     while ((st = br.readLine()) != null) {
                         sumofTextNumbers += Double.parseDouble(st);
 
                         System.out.println("Your new balance is: " + dollarFormat.format(sumofTextNumbers + deposit));
                         double newbalance = sumofTextNumbers + deposit;
+//                        System.out.println(newbalance);
                         FileWriter depositWriter = new FileWriter("Savings.txt");
-                        depositWriter.write(new String (String.valueOf(newbalance))); // casting the double balance into an int so that it can be written into the text fil
+                        depositWriter.write(new String (String.valueOf(newbalance)));
+                        newbalance = Double.parseDouble(st);
                         depositWriter.close();
                         System.out.println("Success");
-                    }
 
+
+                        System.out.println("Would you like to make another deposit? [y/N]");
+                        String nextdeposit = input.next();
+
+                        if (nextdeposit.equalsIgnoreCase("y") || nextdeposit.equalsIgnoreCase("Y")) {
+                            depositSavings();
+                        } else if (nextdeposit.equalsIgnoreCase("n") || nextdeposit.equalsIgnoreCase("N")) {
+                            x = 3;
+                        }
+                    }
                 } catch (NumberFormatException e) {
                     System.out.println("Oops something went wrong");
-                }
-
-                System.out.println("Would you like to make another deposit? [y/N]");
-                String nextdeposit = input.next();
-
-                if (nextdeposit.equalsIgnoreCase("y") || nextdeposit.equalsIgnoreCase("Y")) {
-                    depositSavings();
-                } else if (nextdeposit.equalsIgnoreCase("n") || nextdeposit.equalsIgnoreCase("N")) {
-                    displayMenu();
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Please enter a number value");
                 x = 2;
-                depositSavings();
             }
         } while (x == 1);
     }
@@ -283,6 +277,100 @@ public class bankApp extends Account {
 
         DecimalFormat dollarFormat = new DecimalFormat("'$'###,###.##");
 
+        System.out.println("Which account would you like to withdraw funds from? [1]-Checking OR [2]-Savings ");
+        Scanner input = new Scanner(System.in);
+        int response = input.nextInt();
+//        System.out.println(response);
+        if(response == 1){
+
+            int x = 1;
+            do {     // Reading text.file//
+
+                String st;
+                double sumofTextNumbers = 0;
+
+                try {
+
+                    BufferedReader writer = new BufferedReader(new FileReader("Checking.txt"));
+                    writer.close();
+                    System.out.println("How much would you like to withdraw from your checking account? ");
+                    Scanner inputA = new Scanner(System.in);
+                    double withdrawl = input.nextDouble();
+
+                    System.out.println("You are about to withdraw: " + dollarFormat.format(withdrawl));
+                    BufferedReader writer1 = new BufferedReader(new FileReader("Checking.txt"));
+                    writer1.readLine();
+                    writer.close();
+
+                    try {
+                        File file = new File("Checking.txt");
+                        BufferedReader br = new BufferedReader(new FileReader(file)); //Preparing file for reading
+                        // going through lines that are being read
+
+                        while ((st = br.readLine()) != null) {
+                            sumofTextNumbers += Double.parseDouble(st);
+
+                            if(withdrawl > sumofTextNumbers){
+                                System.out.println("You cant over draw");
+                                x = 2;
+                            }else {
+
+                                System.out.println("Your new balance is: " + dollarFormat.format(sumofTextNumbers - withdrawl));
+                                double newbalance = sumofTextNumbers - withdrawl;
+                                System.out.println(newbalance);
+                                FileWriter depositWriter = new FileWriter("Checking.txt");
+                                depositWriter.write(new String (String.valueOf(newbalance)));
+                                newbalance = Double.parseDouble(st);
+                                depositWriter.close();
+                                System.out.println("Success");
+
+                                System.out.println("Would you like to make another withdrawal? [y/N]");
+                                String nextwithdrawl = input.next();
+                                if (nextwithdrawl.equalsIgnoreCase("y") || nextwithdrawl.equalsIgnoreCase("Y")) {
+                                    depositChecking();
+                                } else if (nextwithdrawl.equalsIgnoreCase("n") || nextwithdrawl.equalsIgnoreCase("N")) {
+                                    x = 3;
+                                }else{
+                                    if( nextwithdrawl.isBlank()){
+                                        System.out.println("You cant withdraw negative amount");
+                                    }
+                                }
+                            }
+
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Oops something went wrong");
+                    }
+                } catch (InputMismatchException | IOException e) {
+                    System.out.println("Please enter a number value");
+                    x = 2;
+                }
+            } while (x == 1);
+
+        }else if(response == 2){
+
+        }else{
+            System.out.println("Please enter a valid input");
+            withdrawFunds();
+        }
+
+    }
+
+    public static void deposit() throws IOException {
+
+        System.out.println("Which account would you like to add funds to? [1]-Checking OR [2]-Savings ");
+
+        Scanner input = new Scanner(System.in);
+
+        int response = input.nextInt();
+
+        if(response == 1){
+            depositChecking();
+        }else if(response == 2){
+            depositSavings();
+        }else{
+            System.out.println("Please enter a valid input");
+        }
     }
 
 
